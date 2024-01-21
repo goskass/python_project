@@ -1,0 +1,15 @@
+{% extends 'news/default.html' %}
+
+{% load custom_filters %}
+{% load static %}
+
+
+{% block content %}
+    <h2>Список статей</h2>
+    {% for article in article %}
+        <h3>{{ article.title|censor }}</h3>
+        <p>{{ article.dateCreation|date:"d.m.Y" }}</p>
+        <p>{{ article.text|slice:":20"|censor }}...</p>
+        <a href="{% url 'article_detail' pk=article.pk %}">Подробнее</a>
+    {% endfor %}
+{% endblock %}
