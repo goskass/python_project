@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Еженедельные обновления новостей</title>
+</head>
+<body>
+    <h2>Новые новости за неделю по вашей подписке:{{ subscription_name }}</h2>
+
+    <h3>Статьи:</h3>
+    <ul>
+        {% for post in posts.articles %}
+            <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h3>Новости:</h3>
+    <ul>
+        {% for post in posts.news %}
+            <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
