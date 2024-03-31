@@ -1,0 +1,56 @@
+{% extends 'news/default.html' %}
+
+{% load custom_filters %}
+{% load static %}
+
+{% block content %}
+    {% if perms.news.add_post %}
+        <a href="{% url 'create_article' %}">Создать статью</a>
+        <a href="{% url 'create_news'%}">Создать новость</a>
+    {% endif %}
+
+    <h2>Список новостей</h2>                                         <a href="{% url 'become_author' %}">Стать автором</a>
+
+    <table style="width: 80%; margin: 0 auto; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="padding: 15px; border: 1px solid #ddd; background-color: #f2f2f2;">Заголовок</th>
+                <th style="padding: 15px; border: 1px solid #ddd; background-color: #f2f2f2;">Дата</th>
+                <th style="padding: 15px; border: 1px solid #ddd; background-color: #f2f2f2;">Текст</th>
+                <th style="padding: 15px; border: 1px solid #ddd; background-color: #f2f2f2;">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in news %}
+                <tr>
+                    <td style="padding: 15px; border: 1px solid #ddd;">{{ article.title|censor }}</td>
+                    <td style="padding: 15px; border: 1px solid #ddd;">{{ article.dateCreation|date:"d.m.Y" }}</td>
+                    <td style="padding: 15px; border: 1px solid #ddd;">{{ article.text|slice:":20"|censor }}...</td>
+                    <td style="padding: 15px; border: 1px solid #ddd;"><a href="{% url 'news_detail' pk=article.pk %}">Подробнее</a></td>
+                </tr>
+                <tr style="height: 30px;">
+                    <td colspan="4"></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if page_obj.has_previous %}
+        <a href="?{% url_replace page=1 %}">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {{ page_obj.number }}
+
+    {% if page_obj.has_next %}
+        <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
