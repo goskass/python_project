@@ -1,0 +1,13 @@
+{% extends 'news/default.html' %}
+{% load custom_filters %}
+{% load static %}
+{% block content %}
+
+    <h2>Редактирование Статьи</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{% url 'news_list' %}">назад к новостям</a>
+{% endblock %}
